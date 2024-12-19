@@ -9,4 +9,5 @@ export default {
   bcrypt_round: process.env.BCRYPT_ROUND,
   default_password: process.env.DEFAULT_PASSWORD,
   NODE_ENV: process.env.NODE_ENV,
+  JWT_SECRET: process.env.JWT_SECRET,
 };

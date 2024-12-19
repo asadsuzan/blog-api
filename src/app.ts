@@ -17,7 +17,7 @@ app.use('/status', (req: Request, res: Response) => {
   res.status(200).send('OK');
 });
 
-app.use('/api/v1', AppRoutes);
+app.use('/api/', AppRoutes);
 
 // Undefined Routes Handler
 app.all('*', (req, res, next) => {
