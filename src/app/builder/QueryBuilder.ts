@@ -12,9 +12,9 @@ class QueryBuilder<T> {
 
   // add search to query
   addSearch(searchableFields: string[]): this {
-    if (this?.query?.searchTerm) {
-      const searchTerm = this.query.searchTerm;
-      const regex = new RegExp(searchTerm, 'i');
+    if (this?.query?.search) {
+      const searchTerm = this.query.search;
+      const regex = new RegExp(searchTerm, 'i');    
       this.queryModel = this.queryModel.where({
         $or: searchableFields.map((field) => ({ [field]: regex })),
       });
@@ -27,14 +27,16 @@ class QueryBuilder<T> {
     const filter: Record<string, unknown> = { ...this.query };
     // exclude fields
     const excludeQuery: string[] = [
-      'searchTerm',
+      'search',
+      "sortBy",
+      "sortOrder",
       'page',
       'limit',
-      'sort',
       'fields',
     ];
     excludeQuery.forEach((field) => delete filter[field]);
     this.queryModel = this.queryModel.find(filter as FilterQuery<T>);
+  
     return this;
   }
   // add pagination to query
@@ -48,8 +50,9 @@ class QueryBuilder<T> {
 
   // add sorting to query
   addSorting(): this {
-    const sort = this?.query?.sort?.split(',').join(' ') || '-createdAt';
-    this.queryModel = this.queryModel.sort(sort);
+    const sort = this?.query?.sortBy;
+    const sortOrder = this.query?.sortOrder === 'desc' ? -1 : 1;
+    this.queryModel = this.queryModel.sort({ [sort]: sortOrder });
     return this;
   }
   // add fields to query

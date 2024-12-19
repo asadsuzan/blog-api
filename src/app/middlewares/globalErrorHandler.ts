@@ -18,6 +18,7 @@ export const globalErrorHandler: ErrorRequestHandler = (
   res,
   next,
 ) => {
+ 
   // setup default status code and message
   let statusCode = error.statusCode || 500;
   let message = error.message || 'An unknown error occurred';
@@ -48,6 +49,7 @@ export const globalErrorHandler: ErrorRequestHandler = (
     message = `Duplicate entry`;
     errorSource = mongooseDuplicateErrorHandler(error);
   } else if (error instanceof AppError) {
+
     statusCode = error.statusCode;
     message = error.message;
     errorSource = [

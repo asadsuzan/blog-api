@@ -6,8 +6,10 @@ const validateRequestBody = (validationSchema: AnyZodObject) => {
       await validationSchema.parseAsync({
         body: req.body,
       });
+    
       next();
     } catch (error) {
+      
       next(error);
     }
   };
