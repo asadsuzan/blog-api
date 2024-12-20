@@ -15,15 +15,16 @@ const createBlog = async(payload:TBlog)=>{
 
 // update a blog post
 
-const updateBlogInDb = async(id:string, payload:TBlog)=>{
-  // find the blog post by id
-    const blog = await Blog.findById(id).populate("author");
+const updateBlogInDb = async(id:string,userId:string, payload:TBlog)=>{
+ 
+  // find the blog post by _id and author
+    const blog = await Blog.findOne({_id:id,author:userId}).populate("author");
     if(!blog){
         throw new AppError("Blog not found",404);
     }
     // update the blog post
     blog.set(payload);
-    await blog.save();
+    await blog.save();  
     return blog;
 }
 

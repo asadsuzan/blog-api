@@ -18,8 +18,9 @@ const createBlog = async(req:CustomRequest,res:Response)=>{
 // update a blog post
 
 const updateBlog = async(req:CustomRequest,res:Response)=>{
+    
     // update blog post in database
-    const updatedBlog = await blogServices.updateBlogInDb(req.params.id,req.body);
+    const updatedBlog = await blogServices.updateBlogInDb(req.params.id,req.user.userId,req.body);
     sendSuccessResponse(res,200,"Blog updated successfully",updatedBlog)
 }
 

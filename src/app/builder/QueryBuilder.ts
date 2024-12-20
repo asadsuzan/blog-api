@@ -34,8 +34,10 @@ class QueryBuilder<T> {
       'limit',
       'fields',
     ];
+;
     excludeQuery.forEach((field) => delete filter[field]);
     this.queryModel = this.queryModel.find(filter as FilterQuery<T>);
+    // console.log(filter)
   
     return this;
   }
