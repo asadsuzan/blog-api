@@ -3,6 +3,7 @@ import jwt from 'jsonwebtoken';
 import config from '../config';
 import CustomRequest from '../constants/CustomRequest';
 import { AppError } from '../error/appError';
+import User from '../modules/user/user.model';
 
 export const authenticate = async (req: CustomRequest, res: Response, next: NextFunction) => {
     try {
@@ -17,13 +18,11 @@ export const authenticate = async (req: CustomRequest, res: Response, next: Next
          // Decode the token and check for expiration
         const decoded = jwt.verify(token as string, config.JWT_SECRET as string) as jwt.JwtPayload;
         req.user = decoded;
-
-         // Ensure token has not expired
-         if (decoded.exp && decoded.exp < Math.floor(Date.now() / 1000)) {
-        
-          next(new AppError('Unauthorized: Token has expired', 401));
-        }
-
+          // check if the user is blocked
+          const user =await User.findById(decoded.userId);
+          if(user && user.isBlocked){
+            return next(new AppError('Unauthorized: User is blocked', 401));
+          }
           
         next();
      
