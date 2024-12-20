@@ -1,31 +1,3 @@
-// import { NextFunction, Response } from "express";
-
-
-// import jwt from 'jsonwebtoken';
-// import config from "../config";
-// import CustomRequest from "../constants/CustomRequest";
-
-// // Middleware for authentication
-// const authenticate = async (req:CustomRequest, res:Response, next:NextFunction) => {
-//     const token = req.headers.authorization?.split(' ')[1];
-//     if (!token) {
-//          res.status(401).json({
-//             status: "error",
-//             message: "Unauthorized"
-//         })
-//         return;
-//     }
-  
-//     try {
-//       const decoded = jwt.verify(token, config.JWT_SECRET as string);
-//       req.user = decoded as { _id: string };
-//       next();
-//     } catch (err) {
-//     next(err)
-//     }
-//   };
-
-//   export default authenticate;
 import { Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 import config from '../config';
@@ -42,14 +14,31 @@ export const authenticate = async (req: CustomRequest, res: Response, next: Next
             next(new AppError('Unauthorized: No token provided', 401));
         }
 
-        const decoded = jwt.verify(token as string, config.JWT_SECRET as string);
+         // Decode the token and check for expiration
+        const decoded = jwt.verify(token as string, config.JWT_SECRET as string) as jwt.JwtPayload;
         req.user = decoded;
-    
+
+         // Ensure token has not expired
+         if (decoded.exp && decoded.exp < Math.floor(Date.now() / 1000)) {
+        
+          next(new AppError('Unauthorized: Token has expired', 401));
+        }
+
           
         next();
      
-    } catch (error) {
-        next(new AppError('Unauthorized: Invalid token', 401,error));
+    } catch (error: unknown) {
+        // Type guard to check if the error is a JWT error
+        if (error instanceof jwt.JsonWebTokenError) {
+            if (error.name === 'TokenExpiredError') {
+                return next(new AppError('Unauthorized: Token has expired', 401));
+            } else if (error.name === 'JsonWebTokenError') {
+                return next(new AppError('Unauthorized: Invalid token', 401));
+            }
+        }
+
+        // Handle other unknown errors
+        return next(new AppError('Unauthorized: Unable to authenticate', 401, error as Error));
     }
 };
   export default authenticate;

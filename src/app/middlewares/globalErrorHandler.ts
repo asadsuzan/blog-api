@@ -61,12 +61,10 @@ export const globalErrorHandler: ErrorRequestHandler = (
   }
   // send error response
   res.status(statusCode).json({
-    status: false,
-    statusCode,
+    success: false,
     message,
+    statusCode,
     errorSource,
-    timestamp: new Date().toISOString(),
-    // error,
     stack:
       config.NODE_ENV === 'development'
         ? error?.stack
