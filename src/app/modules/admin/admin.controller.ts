@@ -8,8 +8,8 @@ const blockSingleUser = async (req: Request, res: Response) => {
     const {userId} = req.params
  // block user in database
 
- const blockedUser = await adminServices.blockUserInDb(userId);
- sendSuccessResponse(res,200,"User blocked successfully",blockedUser)
+await adminServices.blockUserInDb(userId);
+ sendSuccessResponse(res,200,"User blocked successfully",)
 }
 
 // delete a blog post
