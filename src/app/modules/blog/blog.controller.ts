@@ -28,7 +28,7 @@ const updateBlog = async(req:CustomRequest,res:Response)=>{
 
 const deleteBlog = async(req:CustomRequest,res:Response)=>{
     // delete blog post from database
-    await blogServices.deleteBlogInDb(req.params.id);
+    await blogServices.deleteBlogInDb(req.params.id,req.user.userId);
     sendSuccessResponse(res,200,"Blog deleted successfully")
 }
 

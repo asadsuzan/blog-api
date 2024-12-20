@@ -30,9 +30,10 @@ const updateBlogInDb = async(id:string,userId:string, payload:TBlog)=>{
 
 // delete a blog post
 
-const deleteBlogInDb = async(id:string)=>{
-    // find the blog post by id
-    const blog = await Blog.findByIdAndDelete(id);
+const deleteBlogInDb = async(id:string,userId:string)=>{
+    // find the blog post by _id and author
+    // const blog = await Blog.findByIdAndDelete(id);
+    const blog = await Blog.findOneAndDelete({_id:id,author:userId});
     if(!blog){
         throw new AppError("Blog not found",404);
     }
