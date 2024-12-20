@@ -257,4 +257,30 @@ Example Error Response:
 
 ---
 
+### 🌐 Deployment
+
+The API is deployed and live on Vercel, making it accessible for testing and integration.
+
+**Base URL:**  
+🌍 [https://blog-api-assignment-3.vercel.app](https://blog-api-assignment-3.vercel.app)
+
+#### 🔎 Live API Endpoints
+
+**Health Check**
+
+- **Endpoint:** `/status`
+- **Method:** `GET`
+
+**Example Request:**
+
+```bash
+curl https://blog-api-assignment-3.vercel.app/status
+```
+
+Response:
+
+```javascript
+OK;
+```
+
 ## License
