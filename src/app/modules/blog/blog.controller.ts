@@ -6,7 +6,7 @@ import { Response} from "express";
 import { blogServices } from "./blog.service";
 import sendSuccessResponse from "../../utils/successResponse";
 import CustomRequest from "../../constants/CustomRequest";
-// import TBlog from "./blog.interface";
+
 
 const createBlog = async(req:CustomRequest,res:Response)=>{
     req.body.author = req.user.userId;
@@ -24,7 +24,7 @@ const updateBlog = async(req:CustomRequest,res:Response)=>{
     sendSuccessResponse(res,200,"Blog updated successfully",updatedBlog)
 }
 
-// delete a blog post\
+// delete a blog post
 
 const deleteBlog = async(req:CustomRequest,res:Response)=>{
     // delete blog post from database

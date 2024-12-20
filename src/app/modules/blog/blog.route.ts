@@ -17,6 +17,6 @@ const BlogRoutes = router;
 // delete a blog post
 router.delete('/:id',authenticate,asyncHandler(blogControllers.deleteBlog));
 
-// get all blog posts
+// get all blog posts // public route
 router.get('/',asyncHandler(blogControllers.getAllBlogs));
 export default BlogRoutes;
