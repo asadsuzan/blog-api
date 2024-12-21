@@ -52,6 +52,7 @@ const getAllBlogsFromDb = async(query:Record<string,unknown>)=>{
 
     // execute the query
     const blogs = await queryBuilder.queryModel.populate("author");
+   
     return blogs;
 }
 export const blogServices = {

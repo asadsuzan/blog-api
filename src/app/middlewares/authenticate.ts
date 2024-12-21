@@ -20,9 +20,15 @@ export const authenticate = async (req: CustomRequest, res: Response, next: Next
         req.user = decoded;
           // check if the user is blocked
           const user =await User.findById(decoded.userId);
-          if(user && user.isBlocked){
+          if(!user){
+            return next(new AppError('Unauthorized: User not found', 401));
+          }else if(user && user.isBlocked){
             return next(new AppError('Unauthorized: User is blocked', 401));
           }
+          
+        //   if(user && user.isBlocked){
+        //     return next(new AppError('Unauthorized: User is blocked', 401));
+        //   }
           
         next();
      

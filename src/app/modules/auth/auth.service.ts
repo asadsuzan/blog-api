@@ -45,8 +45,14 @@ const loginUser = async (email: string, password: string) => {
     const user = await User.findOne({ email });
     // check if user exists and is not blocked
     
-    if (!user || user.isBlocked) {
-        throw new AppError("Invalid credentials", 401);
+    // if (!user || user.isBlocked) {
+    //     throw new AppError("Invalid credentials", 401);
+    // }
+    if(!user){
+        throw new AppError("User Not Found", 401);
+    }
+    if(user.isBlocked){
+        throw new AppError("User is blocked", 401);
     }
 
     // compare password

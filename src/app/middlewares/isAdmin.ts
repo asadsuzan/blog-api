@@ -8,6 +8,7 @@ const isAdmin = (req:CustomRequest, res:Response, next:NextFunction) => {
         next(new AppError( 'Admin access required', 401));
         return
     }
+    
     next();
   };
 

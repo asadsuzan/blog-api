@@ -10,7 +10,8 @@ async function main() {
     await mongoose.connect(config.uri as string);
     console.log('db connected');
     server = app.listen(config.port, () => {
-      console.log(`Example app listening on port ${config.port}`);
+      // http://localhost:5000/status
+      console.log(`Example app listening on port ${config.port} ! heath check at http://localhost:${config.port}/status`);
     });
 
     // handle unhandled rejections
